@@ -5,14 +5,11 @@
     <title>HelloLecture</title>
     <link rel="stylesheet" type="text/css" href="../css/main_style.css">
 </head>
-<script>
-    document.getElementById("questions").click();
-</script>
 <body>
 <!-- Tab links -->
 <div class="tabWrapper">
-    <button class="tablinks" id="questions" onclick="openTab(event, 'questionTab')">Fragen</button>
-    <button class="tablinks" id="surveys" onclick="openTab(event, 'surveyTab')">Umfragen</button>
+    <button class="tablinks" id="questions" onclick="openTab(event, 'questionTab')">Questions</button>
+    <button class="tablinks" id="surveys" onclick="openTab(event, 'surveyTab')">Surveys</button>
 </div>
 
 <!-- Tab content -->
@@ -25,4 +22,7 @@
 </div>
 <script src="../js/tabs.js"></script>
 </body>
+<script>
+    document.getElementById("questions").click();
+</script>
 </html>
