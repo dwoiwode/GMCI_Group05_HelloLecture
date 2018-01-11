@@ -1,0 +1,15 @@
+/* stylesheet with style properties of the landing page elements*/
+
+.title {
+    font-size: 20pt;
+}
+/* text field for entering the joining code*/
+#join-field {
+    padding: 5pt 5pt 5pt 5pt;
+    font-size: 15pt;
+}
+
+#join-btn {
+    padding: 5pt 8pt 5pt 8pt;
+    font-size: 15pt;
+}
