@@ -1,0 +1,46 @@
+/* Style the tab */
+.tabWrapper {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* Style the buttons that are used to open the tab content */
+.tabWrapper button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tabWrapper button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tabWrapper button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+#questionTab {
+    grid-column: 1;
+    grid-row: 1;
+}
+#surveyTab {
+    grid-column: 1;
+    grid-row: 2;
+}

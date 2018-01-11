@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HelloLecture</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<script>
+    document.getElementById("questions").click();
+</script>
+<body>
+<!-- Tab links -->
+<div class="tabWrapper">
+    <button class="tablinks" id="questions" onclick="openTab(event, 'questionTab')">Fragen</button>
+    <button class="tablinks" id="surveys" onclick="openTab(event, 'surveyTab')">Umfragen</button>
+</div>
+
+<!-- Tab content -->
+<div id="questionTab" class="tabcontent">
+    <h2>Questions go here</h2>
+</div>
+
+<div id="surveyTab" class="tabcontent">
+    <h2>Surveys go here</h2>
+</div>
+<script src="tabs.js"></script>
+</body>
+</html>
