@@ -1,0 +1,60 @@
+/* stylesheet with style properties of the landing page elements */
+
+.title {
+    font-size: 21pt;
+    font-family: 'Roboto', sans-serif;
+    color: #00A5CF;
+}
+
+/* text field for entering the joining code*/
+#join-field {
+    font-size: 15pt;
+    font-family: 'Roboto', sans-serif;
+
+    padding: 7pt 5pt 7pt 5pt;
+
+}
+
+/* join button*/
+#join-btn {
+    font-size: 15pt;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+
+    padding: 8pt 17pt 8pt 17pt;
+    border-radius: 3px;
+    background-color: #00A5CF;
+    border: none;
+
+    cursor: pointer;
+}
+
+#join-btn:hover {
+    background-color: #7AE582;
+}
+
+#join-btn:focus {
+    outline: 0;
+}
+
+/* new button */
+#new-btn {
+    font-size: 15pt;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+
+    padding: 5pt 10pt 5pt 10pt;
+    border-radius: 8px;
+    background-color: #00A5CF;
+    border: none;
+
+    cursor: pointer;
+}
+
+#new-btn:hover {
+    background-color: #7AE582;
+}
+
+#new-btn:focus {
+    outline: 0;
+}
