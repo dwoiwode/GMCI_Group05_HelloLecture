@@ -30,6 +30,7 @@
     background-color: #00A5CF;
     transition-duration: 0.4s;
     color: white;
+    font-weight: bold;
 }
 
 /* Style the tab content */
@@ -67,7 +68,8 @@
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 .active, .accordion:hover {
     background-color: #00A5CF;
-    color: white
+    font-weight: bold;
+    color: white;
 
 }
 
