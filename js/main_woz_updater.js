@@ -33,8 +33,8 @@ origins = *
 var request = new XMLHttpRequest();
 
 request.onreadystatechange = function() {
-    // console.log("onreadystatechange: " + request.readyState + ", " +  request.status);
-    // console.log(request.responseText);
+    // console.log("onreadystatechange: " + request2.readyState + ", " +  request2.status);
+    // console.log(request2.responseText);
     if (request.readyState == 4) {
         if (request.status == 200) {
             var response = JSON.parse(request.responseText);
@@ -59,17 +59,17 @@ function update() {
     }
 }
 
-// request updates at a fixed interval (ms)
+// request2 updates at a fixed interval (ms)
 var intervalID = setInterval(update, 1000);
 
 ///////////////////////////////////////////////////////////////////////////////
 // your code below
 
-var dbname = "gmci";
+var dbname = "gmci_hello_lecture";
 var dburl = "http://127.0.0.1:5984/" + dbname + "/";
 var handlers = {
-    "questions" : updateQuestions,
-    "surveys" : updateSurvey
+    "questions" : updateQuestions
+    //"surveys" : updateSurvey
 };
 
 function updateQuestions(response) {
@@ -91,11 +91,11 @@ function updateQuestions(response) {
 }
 
 
-function updateSurvey(response) {
-    /**
+/*function updateSurvey(response) {
+    /!**
      * Updates shown Survey results
-     */
-}
+     *!/
+}*/
 
 
 

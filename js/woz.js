@@ -44,26 +44,26 @@ bind_address = 0.0.0.0
 origins = *
 */
 
-var request = new XMLHttpRequest();
+var request2 = new XMLHttpRequest(); // TODO think up a better name
 
-request.onreadystatechange = function () {
-    console.log("onreadystatechange: " + request.readyState + ", " + request.status);
-    console.log(request.responseText);
-    if (request.readyState === 4) {
-        if (request.status === 200) {
-            var response = JSON.parse(request.responseText);
-            handlers[response._id](response);
+request2.onreadystatechange = function () {
+    console.log("onreadystatechange: " + request2.readyState + ", " + request2.status);
+    console.log(request2.responseText);
+    if (request2.readyState === 4) {
+        if (request2.status === 200) {
+            var response = JSON.parse(request2.responseText);
+            handlers2[response._id](response);
         }
-        if (request.status === 404) {
-            var json = JSON.parse(request.responseText);
+        if (request2.status === 404) {
+            var json = JSON.parse(request2.responseText);
             if (json.reason === "no_db_file") {
                 createDB();
             } else {
-                var url = request.responseURL;
+                var url = request2.responseURL;
 //              console.log(typeof(url));
                 var i = url.lastIndexOf("/", url.length - 1);
                 var name = url.substring(i + 1);
-                handlers[name]({"_id": name});
+                handlers2[name]({"_id": name});
             }
         }
     }
@@ -83,27 +83,27 @@ function getCheckedRadio(name) {
 function set(name) {
     console.log("set::name = " + name);
     console.log("set::GET = " + dburl + name);
-    request.open("GET", dburl + name, false);
-    request.send();
+    request2.open("GET", dburl + name, false);
+    request2.send();
 }
 
 function put(response, message) {
     console.log("put::response = " + response);
     console.log("put::message = " + message);
-    request.open("PUT", dburl + response._id, false);
-    request.setRequestHeader("Content-type", "application/json");
+    request2.open("PUT", dburl + response._id, false);
+    request2.setRequestHeader("Content-type", "application/json");
     message["_id"] = response._id;
     if (response._rev) {
         message["_rev"] = response._rev;
     }
     var s = JSON.stringify(message);
 //  console.log("put: " + s);
-    request.send(s);
+    request2.send(s);
 }
 
 function createDB() {
-    request.open("PUT", dburl, false);
-    request.send();
+    request2.open("PUT", dburl, false);
+    request2.send();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -111,15 +111,15 @@ function createDB() {
 
 var dbname = "gmci_hello_lecture";
 var dburl = "http://127.0.0.1:5984/" + dbname + "/";
-var handlers = {
+var handlers2 = {  // TODO think up a better name
     "questions": setQuestion,
-    "surveys": setSurvey,
+    //"surveys": setSurvey,
 };
 
 // Question
 function setQuestion(response) {
 
-    var questions = response.questions ? response.questions : [];
+    var questions = response.questions ? response.questions : {questionArray: []};
     var newQuestionText = document.getElementById("newQuestion").value;
     console.log("Lenght of questions: " + questions.length);
     for (var question in questions) {
@@ -128,7 +128,7 @@ function setQuestion(response) {
         }
     }
     var newQuestion = {text: newQuestionText, upvotes: 0, responses: {}};
-    questions.append(newQuestion);
+    questions["questionArray"].push(newQuestion);
     // TODO: Sort questions by upvotes
     put(response, questions);
 }
