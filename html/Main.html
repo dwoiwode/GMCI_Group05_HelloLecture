@@ -13,16 +13,48 @@
 </div>
 
 <!-- Tab content -->
+<!-- Start of questionTab-->
 <div id="questionTab" class="tabcontent">
-    <h2>Questions go here</h2>
-</div>
+    <div class="questionContainer">
+        <button class="accordion question">Question 1</button>
+        <div class="panel">
+            <p>Lorem ipsum...</p>
+        </div>
 
+        <button class="accordion question">Question 2</button>
+        <div class="panel">
+            <p>Lorem ipsum...</p>
+        </div>
+
+        <button class="accordion question">Question 3</button>
+        <div class="panel">
+            <p>Lorem ipsum...</p>
+        </div>
+        <!-- Tabs will be created from database -->
+    </div>
+</div> <!-- End of questionTab-->
+
+<!-- Start of surveyTab-->
 <div id="surveyTab" class="tabcontent">
     <h2>Surveys go here</h2>
-</div>
+</div> <!-- End of surveyTab-->
+
+
+<!-- External Scripts -->
 <script src="../js/tabs.js"></script>
+<script src="../js/accordion.js"></script>
+
 </body>
 <script>
+    /* Load Question tab on start*/
     document.getElementById("questions").click();
+
+    /* Add Eventhandler to dummy accordions. Can be removed when reading questions from db works*/
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        addAccordionEventListener(acc[i]);
+    }
 </script>
 </html>

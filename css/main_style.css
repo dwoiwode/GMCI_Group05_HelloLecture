@@ -1,8 +1,10 @@
+/* ============== General stuff ============== */
+/* ============== Tab stuff ============== */
 /* Style the tab */
 .tabWrapper {
     overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
+    border: 1px solid #00A5CF;
+    background-color: white;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }
@@ -20,19 +22,21 @@
 
 /* Change background color of buttons on hover */
 .tabWrapper button:hover {
-    background-color: #ddd;
+    background-color: #cff5ff;
 }
 
 /* Create an active/current tablink class */
 .tabWrapper button.active {
-    background-color: #ccc;
+    background-color: #00A5CF;
+    transition-duration: 0.4s;
+    color: white;
 }
 
 /* Style the tab content */
 .tabcontent {
     display: none;
     padding: 6px 12px;
-    border: 1px solid #ccc;
+    border: 1px solid #00A5CF;
     border-top: none;
 }
 
@@ -43,4 +47,36 @@
 #surveyTab {
     grid-column: 1;
     grid-row: 2;
+}
+
+/* ============== Accordion stuff ============== */
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    height: 75px;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .accordion:hover {
+    background-color: #00A5CF;
+    color: white
+
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+    padding: 0 18px;
+    margin: 0 0 5px 30px;
+    background-color: #cff5ff;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
 }
