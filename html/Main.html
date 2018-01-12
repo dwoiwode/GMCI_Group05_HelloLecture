@@ -8,15 +8,16 @@
 <body>
 <!-- Tab links -->
 <div class="tabWrapper">
-    <button class="tablinks" id="questions" onclick="openTab(event, 'questionTab')">Questions</button>
-    <button class="tablinks" id="surveys" onclick="openTab(event, 'surveyTab')">Surveys</button>
+    <button class="tablinks" id="questionTabSelector" onclick="openTab(event, 'questionTab')">Questions</button>
+    <button class="tablinks" id="surveyTabSelector" onclick="openTab(event, 'surveyTab')">Surveys</button>
 </div>
 
 <!-- Tab content -->
 <!-- Start of questionTab-->
 <div id="questionTab" class="tabcontent">
-    <div class="questionContainer">
-        <button class="accordion question">Question 1</button>
+    <div class="questionContainer" id="questions">
+        <!--
+        <b  utton class="accordion question">Question 1</button>
         <div class="panel">
             <p>Lorem ipsum...</p>
         </div>
@@ -29,8 +30,12 @@
         <button class="accordion question">Question 3</button>
         <div class="panel">
             <p>Lorem ipsum...</p>
-        </div>
+        </div> -->
         <!-- Tabs will be created from database -->
+    </div>
+    <div class="footer">
+        <input type="text" name="newQuestion" id="newQuestion">
+        <button id="sendNewQuestion" onclick="set('addQuestion');"> >>> </button>
     </div>
 </div> <!-- End of questionTab-->
 
@@ -43,11 +48,13 @@
 <!-- External Scripts -->
 <script src="../js/tabs.js"></script>
 <script src="../js/accordion.js"></script>
+<script src="../js/woz.js"></script>
+<script src="../js/main_woz_updater.js"></script>
 
 </body>
 <script>
     /* Load Question tab on start*/
-    document.getElementById("questions").click();
+    document.getElementById("questionTabSelector").click();
 
     /* Add Eventhandler to dummy accordions. Can be removed when reading questions from db works*/
     var acc = document.getElementsByClassName("accordion");

@@ -68,22 +68,28 @@ var intervalID = setInterval(update, 1000);
 var dbname = "gmci";
 var dburl = "http://127.0.0.1:5984/" + dbname + "/";
 var handlers = {
-    "updateQuestions" : updateQuestions,
-    "updateQuestion" : updateQuestion,
-    "updateSurvey" : updateSurvey
+    "questions" : updateQuestions,
+    "surveys" : updateSurvey
 };
 
 function updateQuestions(response) {
     /**
      * Updates shown Questions including order
      */
+    console.log("Update Questions got called");
+    questionContainer = document.getElementById("questionTab");
+    questionContainer.innerHTML = "";
+    for (question in response.questions) {
+        var newAccordion = document.createElement("button");
+        newAccordion.className = "accordion";
+        newAccordion.innerText = question.text + " (" + question.upvotes + ")";
+        addAccordionEventListener(newAccordion);
+        var newPanel = document.createElement("div");
+        newPanel.className = "panel";
+        newPanel.innerHTML = "<p>This is the answer</p>";
+    }
 }
 
-function updateQuestion(response) {
-    /**
-     * Updates a specific Questions including order of replies
-     */
-}
 
 function updateSurvey(response) {
     /**

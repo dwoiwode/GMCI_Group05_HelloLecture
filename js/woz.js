@@ -111,50 +111,29 @@ function createDB() {
 
 var dbname = "gmci_hello_lecture";
 var dburl = "http://127.0.0.1:5984/" + dbname + "/";
-// TODO: Do we need that many handlers? ~Dominik Woiwode
 var handlers = {
-    // Questions
-    "addQuestion": addQuestion,
-    "addSurvey": addSurvey,
-    "addReply": addReply,
-    "upvoteQuestion": upvoteQuestion,
-    "upvoteReply": upvoteReply,
-    // Surveys
-    "voteSurvey": voteSurvey,
-    "openSurvey": openSurvey,
-    "closeSurvey": closeSurvey,
-    // Feedback
-    "voteFeedback": voteFeedback
+    "questions": setQuestion,
+    "surveys": setSurvey,
 };
 
 // Question
-function addQuestion(response) {
+function setQuestion(response) {
+
+    var questions = response.questions ? response.questions : [];
+    var newQuestionText = document.getElementById("newQuestion").value;
+    console.log("Lenght of questions: " + questions.length);
+    for (var question in questions) {
+        if (question.text === newQuestionText) {
+            return;
+        }
+    }
+    var newQuestion = {text: newQuestionText, upvotes: 0, responses: {}};
+    questions.append(newQuestion);
+    // TODO: Sort questions by upvotes
+    put(response, questions);
 }
 
-function addSurvey(response) {
-}
-
-function addReply(response) {
-}
-
-function upvoteQuestion(response) {
-}
-
-function upvoteReply(response) {
-}
-
-//Survey
-function voteSurvey(response) {
-}
-
-function openSurvey(response) {
-}
-
-function closeSurvey(response) {
-}
-
-// Feedback
-function voteFeedback(response) {
+function setSurvey(response) {
 }
 
 function mytext(response) {
