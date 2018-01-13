@@ -7,7 +7,7 @@
     border: 1px solid #00A5CF;
     background-color: white;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 8fr) 1fr;
 }
 
 /* Style the buttons that are used to open the tab content */
@@ -101,4 +101,9 @@
     background-color: #00A5CF;
     font-weight: bold;
     color: white;
+}
+
+#menu-btn {
+
+    border-left: 1px solid #00A5CF;
 }
