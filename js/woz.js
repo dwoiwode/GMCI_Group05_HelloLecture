@@ -106,6 +106,10 @@ function createDB() {
     request2.send();
 }
 
+function reset() {
+
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // your code below
 
@@ -130,7 +134,7 @@ function setQuestion(response) {
     }
     var newQuestion = {text: newQuestionText, upvotes: 0, responses: {}};
     questionArray.push(newQuestion);
-    // TODO: Sort questions by upvotes
+    questionArray.sort(function (a, b) {return b.upvotes - a.upvotes;});
     put(response, {"questionArray":response.questionArray});
 }
 
