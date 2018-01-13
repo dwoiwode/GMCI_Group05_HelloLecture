@@ -6,13 +6,24 @@
     <link rel="stylesheet" type="text/css" href="../css/main_style.css">
 </head>
 <body>
+
+<!-- modal menu -->
+<div id="menu" class="modal">
+    <!-- Modal content -->
+    <div class="menu-content">
+        <button id="help">Help</button>
+        <button id="feedback">Start Feedback</button>
+        <button id="survey">New Survey</button>
+    </div>
+</div>
+
 <!-- Tab links -->
 <div class="tabWrapper">
     <button class="tablinks" id="questionTabSelector" onclick="openTab(event, 'questionTab')">Questions</button>
     <button class="tablinks" id="surveyTabSelector" onclick="openTab(event, 'surveyTab')">Surveys</button>
-    <button id="menu-btn" onclick="alert('menu clicked');">&#9679;<br>&#9679;<br>&#9679;</button>
+    <button id="menu-btn">&#9679;<br>&#9679;<br>&#9679;</button>
 </div>
-
+<!-- The Modal menu -->
 <!-- Tab content -->
 <!-- Start of questionTab-->
 <div id="questionTab" class="tabcontent">
@@ -43,6 +54,7 @@
 <script src="../js/accordion.js"></script>
 <script src="../js/woz.js"></script>
 <script src="../js/main_woz_updater.js"></script>
+<script src="../js/modal_menu.js"></script>
 
 </body>
 <script>
