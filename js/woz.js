@@ -52,7 +52,7 @@ request2.onreadystatechange = function () {
     if (request2.readyState === 4) {
         if (request2.status === 200) {
             var response = JSON.parse(request2.responseText);
-            handlers2[response._id](response);
+            setHandler[response._id](response);
         }
         if (request2.status === 404) {
             var json = JSON.parse(request2.responseText);
@@ -63,7 +63,7 @@ request2.onreadystatechange = function () {
 //              console.log(typeof(url));
                 var i = url.lastIndexOf("/", url.length - 1);
                 var name = url.substring(i + 1);
-                handlers2[name]({"_id": name});
+                setHandler[name]({"_id": name});
             }
         }
     }
@@ -111,7 +111,7 @@ function createDB() {
 
 var dbname = "gmci_hello_lecture";
 var dburl = "http://127.0.0.1:5984/" + dbname + "/";
-var handlers2 = {  // TODO think up a better name
+var setHandler = {
     "questions": setQuestion,
     //"surveys": setSurvey,
 };
@@ -119,18 +119,19 @@ var handlers2 = {  // TODO think up a better name
 // Question
 function setQuestion(response) {
 
-    var questions = response.questions ? response.questions : {questionArray: []};
+    questionArray = response.questionArray ? response.questionArray : [];
     var newQuestionText = document.getElementById("newQuestion").value;
-    console.log("Lenght of questions: " + questions.length);
-    for (var question in questions) {
+    console.log("Lenght of questions: " + questionArray.length);
+    for (var i=0;i<questionArray.length; i++) {
+        var question = questionArray[i];
         if (question.text === newQuestionText) {
             return;
         }
     }
     var newQuestion = {text: newQuestionText, upvotes: 0, responses: {}};
-    questions["questionArray"].push(newQuestion);
+    questionArray.push(newQuestion);
     // TODO: Sort questions by upvotes
-    put(response, questions);
+    put(response, {"questionArray":response.questionArray});
 }
 
 function setSurvey(response) {

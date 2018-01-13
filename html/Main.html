@@ -15,7 +15,7 @@
 <!-- Tab content -->
 <!-- Start of questionTab-->
 <div id="questionTab" class="tabcontent">
-    <div class="questionContainer" id="questions">
+    <div class="questionContainer" id="questionsContainer">
         <!--
         <b  utton class="accordion question">Question 1</button>
         <div class="panel">
@@ -57,11 +57,11 @@
     document.getElementById("questionTabSelector").click();
 
     /* Add Eventhandler to dummy accordions. Can be removed when reading questions from db works*/
-    var acc = document.getElementsByClassName("accordion");
-    var i;
-
-    for (i = 0; i < acc.length; i++) {
-        addAccordionEventListener(acc[i]);
-    }
+    // var acc = document.getElementsByClassName("accordion");
+    // var i;
+    //
+    // for (i = 0; i < acc.length; i++) {
+    //     addAccordionEventListener(acc[i]);
+    // }
 </script>
 </html>

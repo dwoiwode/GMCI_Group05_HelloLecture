@@ -32,13 +32,13 @@ origins = *
 
 var request = new XMLHttpRequest();
 
-request.onreadystatechange = function() {
+request.onreadystatechange = function () {
     // console.log("onreadystatechange: " + request2.readyState + ", " +  request2.status);
     // console.log(request2.responseText);
     if (request.readyState == 4) {
         if (request.status == 200) {
             var response = JSON.parse(request.responseText);
-            handlers[response._id](response);
+            updateHandler[response._id](response);
         }
         if (request.status == 404) {
             console.log("not found: " + request.responseText);
@@ -53,7 +53,7 @@ function get(variable) {
 }
 
 function update() {
-    for (var name in handlers) {
+    for (var name in updateHandler) {
         // console.log("updating " + name);
         get(name);
     }
@@ -67,27 +67,49 @@ var intervalID = setInterval(update, 1000);
 
 var dbname = "gmci_hello_lecture";
 var dburl = "http://127.0.0.1:5984/" + dbname + "/";
-var handlers = {
-    "questions" : updateQuestions
+var updateHandler = {
+    "questions": updateQuestions
     //"surveys" : updateSurvey
 };
+function createNewQuestion(question, questionContainer) {
+    var singleQuestion = document.createElement("div");
+    singleQuestion.className = "singleQuestion";
+    singleQuestion.id = getQuestionID(question);
+    var newAccordion = document.createElement("button");
+    newAccordion.className = "accordion";
+    newAccordion.innerText = question.text + " (" + question.upvotes + ")";
+    addAccordionEventListener(newAccordion);
+    var newPanel = document.createElement("div");
+    newPanel.className = "panel";
+    newPanel.innerHTML = "<p>This is the answer</p>";
+
+    singleQuestion.appendChild(newAccordion);
+    singleQuestion.appendChild(newPanel);
+    questionContainer.appendChild(singleQuestion);
+    return singleQuestion;
+}
+function getQuestionID(question) {
+    return "question_" + question.text.replace(" ", "_");
+}
 
 function updateQuestions(response) {
     /**
      * Updates shown Questions including order
      */
     console.log("Update Questions got called");
-    questionContainer = document.getElementById("questionTab");
+    console.log(response);
+    questionContainer = document.getElementById("questionsContainer");
     questionContainer.innerHTML = "";
-    for (question in response.questions) {
-        var newAccordion = document.createElement("button");
-        newAccordion.className = "accordion";
-        newAccordion.innerText = question.text + " (" + question.upvotes + ")";
-        addAccordionEventListener(newAccordion);
-        var newPanel = document.createElement("div");
-        newPanel.className = "panel";
-        newPanel.innerHTML = "<p>This is the answer</p>";
+    currentQuestions = questionContainer.getElementsByClassName("singleQuestion");
+    for (var i = 0; i < response.questionArray.length; i++) {
+        var question = response.questionArray[i];
+        var questionID = getQuestionID(question);
+        thisQuestion = document.getElementById(questionID);
+        thisQuestion = thisQuestion ? thisQuestion : createNewQuestion(question, questionContainer);
+        thisAccordion = thisQuestion.getElementsByClassName("accordion")[0];
+        thisPanel = thisQuestion.getElementsByClassName("panel")[0];
     }
+    // response.questionArray = response.questionArray ? response.questionArray: [];
 }
 
 
