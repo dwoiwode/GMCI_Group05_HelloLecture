@@ -1,12 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        #items {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
     <meta charset="UTF-8">
-    <title>Wizard of Oz</title>
+    <title>Wizard of Oz - HelloLecture</title>
 </head>
 <body>
 <script src="../js/woz.js"></script>
 <button onclick="createDB()">Create Database</button>
-<button onclick="reset()">Reset Database</button>
+<div id="items">
+    <button onclick="reset()">Reset Database</button>
+
+    <label>
+        <input type="checkbox" name="simulation" id="surveyVotes" onclick="set('simulation');"checked>
+        Simulate Random survey votes
+    </label>
+
+    <label>
+        <input type="checkbox" name="simulation" id="questionVotes" onclick="set('simulation');"checked>
+        Simulate random question upvotes
+    </label>
+
+    <label>
+        <input type="checkbox" name="simulation" id="answerVotes" onclick="set('simulation');" checked>
+        Simulate random answer upvotes
+    </label>
+</div>
+<script src="../js/woz.js"></script>
 </body>
 </html>

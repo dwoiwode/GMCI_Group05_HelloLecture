@@ -118,6 +118,7 @@ var dburl = "http://127.0.0.1:5984/" + dbname + "/";
 var setHandler = {
     "questions": setQuestion,
     "surveys": setSurvey,
+    "simulation": setSimulation,
 };
 
 // Question
@@ -150,6 +151,15 @@ function setSurvey(response) {
     put(response, {"surveyArray": surveyArray});
 }
 
+
+function setSimulation(response) {
+    var simulateSurvey =
+    put(response, {
+        "simulateSurvey": document.getElementById("surveyVotes").checked,
+        "simulateQuestion": document.getElementById("questionVotes").checked,
+        "simulateAnswer": document.getElementById("answerVotes").checked
+    });
+}
 function mytext(response) {
     // Old functions
     var src = getCheckedRadio("animalImage");
