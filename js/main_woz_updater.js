@@ -94,8 +94,7 @@ function createNewQuestion(question) {
     // Input field
     var newReplyInput = document.createElement("input");
     newReplyInput.type = "text";
-    var inputId = id + "_INPUT";
-    newReplyInput.id = inputId;
+    newReplyInput.id = id + "_INPUT";
 
     //init answer button with class answer-btn
     var sendAnswerButton = document.createElement("Button");
@@ -121,18 +120,34 @@ function setMarked(button, doc) {
 
 
 function createNewSurvey(survey) {
+    // Create Survey container
     var singleSurvey = document.createElement("div");
     singleSurvey.className = "singleSurvey";
     singleSurvey.id = getSurveyID(survey);
+
+    // Create Survey button
     var newAccordion = document.createElement("button");
     newAccordion.className = "accordion";
     newAccordion.innerText = survey.text;
     addAccordionEventListener(newAccordion);
 
+    // Create container for answers
     var newPanel = document.createElement("div");
     newPanel.className = "panel";
-    newPanel.innerHTML = "<p>This are the responses</p>";
 
+    for (var choice in survey.choices) {
+        var newChoice = document.createElement("button");
+        newChoice.innerHTML = choice;
+        newChoice.className = "choiceLabel";
+        newChoice.id = getSurveyID(survey) + "_______" + choice;
+        newChoice.onclick = function () {
+            setMarked(this, "surveys");
+        };
+        newPanel.appendChild(newChoice);
+        newPanel.appendChild(document.createElement("p"))
+    }
+
+    // Append
     singleSurvey.appendChild(newAccordion);
     singleSurvey.appendChild(newPanel);
     return singleSurvey;
@@ -154,8 +169,6 @@ function updateQuestions(response) {
     /**
      * Updates shown Questions including order
      */
-        // console.log("Update Questions got called");
-        // console.log(response);
     var questionContainer = document.getElementById("questionsContainer");
     // questionContainer.innerHTML = "";
     response.questionArray = response.questionArray ? response.questionArray : [];
@@ -211,8 +224,55 @@ function updateSurvey(response) {
         var surveyID = getSurveyID(survey);
         var thisSurvey = document.getElementById(surveyID);
         thisSurvey = thisSurvey ? thisSurvey : createNewSurvey(survey);
+        thisSurvey.classList.remove("singleSurvey");
+        switch (thisSurvey.className) {
+
+            case "replaceable":
+                replaceButtons(thisSurvey, response);
+                thisSurvey.classList.remove("replaceable");
+                thisSurvey.classList.add("updateable");
+                break;
+            case "updateable":
+                updateButtons(thisSurvey, response);
+                break;
+        }
+        thisSurvey.classList.add("singleSurvey");
         surveyContainer.appendChild(thisSurvey);
     }
+}
+
+function replaceButtons(survey, response) {
+    var surveyData = getSurveyData(survey, response);
+    for (var choice in surveyData.choices) {
+        document.getElementById(survey.id + "_______" + choice).onclick = null;
+    }
+    updateButtons(survey, response);
+}
+
+function updateButtons(survey, response) {
+    var surveyData = getSurveyData(survey, response);
+    var totalVotes = 0;
+    for (var choice in surveyData.choices) {
+        totalVotes += surveyData.choices[choice];
+    }
+    for (choice in surveyData.choices) {
+        var newChoice = document.getElementById(survey.id + "_______" + choice);
+        var newWidth = Math.floor(surveyData.choices[choice] / totalVotes * 1000) + "px";
+        console.log(newWidth);
+        newChoice.style.width = newWidth;
+    }
+
+}
+
+function getSurveyData(survey, response) {
+    var surveyID = survey.id;
+    for (var i = 0; i < response.surveyArray.length; i++) {
+        if (getSurveyID(response.surveyArray[i]) === surveyID) {
+            return response.surveyArray[i];
+        }
+    }
+    console.log("Survey not found");
+    return null;
 }
 
 function simulate(response) {

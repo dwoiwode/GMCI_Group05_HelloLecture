@@ -3,6 +3,7 @@ function addAccordionEventListener(accordion) {
     accordion.addEventListener("click", function() {
         this.classList.toggle("active");
         var panel = this.nextElementSibling;
+        console.log(panel);
         if (panel.style.maxHeight){
             panel.style.maxHeight = null;
         } else {
