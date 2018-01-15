@@ -121,6 +121,12 @@ var setHandler = {
     "simulation": setSimulation
 };
 
+
+function setMarked(button, doc) {
+    button.classList.add("marked");
+    set(doc);
+}
+
 // Question
 function setQuestion(response) {
     var actions = document.getElementsByClassName("marked");
@@ -133,12 +139,15 @@ function setQuestion(response) {
                 break;
             case "sendReplyButton":
                 addNewReply(action, response);
+                break;
+            default:
+                action.classList.add("marked");
+                return;
         }
     }
 }
 
 function addNewReply(action, response) {
-    // curQuestionId global variable from woz updater
     var questionArray = response.questionArray;
     if (!questionArray) return;  // Cannot be empty when reply to question wanna be added
     var thisQuestionID = action.id.substring(0, action.id.length - 7);
@@ -160,7 +169,7 @@ function addNewReply(action, response) {
             break;
         }
     }
-    put(response, {"questionArray":questionArray})
+    put(response, {"questionArray": questionArray})
 }
 
 function addNewQuestion(response) {
@@ -184,15 +193,56 @@ function addNewQuestion(response) {
     put(response, {"questionArray": questionArray});
 }
 
+
+// Surveys
 function setSurvey(response) {
+    var actions = document.getElementsByClassName("marked");
+    for (var i = 0; i < actions.length; i++) {
+        var action = actions[i];
+        action.classList.remove("marked");
+        switch (action.className) {
+            case "addNewSurveyButton":
+                addNewSurvey(response);
+                break;
+            case "choiceLabel":
+                voteChoice(action, response);
+                break;
+            default:
+                action.classList.add("marked");
+                return;
+        }
+    }
+}
+
+function addNewSurvey(response) {
     var surveyArray = response.surveyArray ? response.surveyArray : [];
     var newSurveyName = "New beautiful Survey (" + surveyArray.length + ")";
 
-    var newSurvey = {text: newSurveyName, state: 0, responses: {"Current Answer1": 0, "Current Answer2": 0}};
+    var newSurvey = {text: newSurveyName, state: 0, choices: {"Current Answer1": 0, "Current Answer2": 0}};
     surveyArray.push(newSurvey);
     put(response, {"surveyArray": surveyArray});
 }
 
+
+function voteChoice(action, response) {
+    // curQuestionId global variable from woz updater
+    var surveyArray = response.surveyArray;
+    if (!surveyArray) return;  // Cannot be empty when reply to survey wanna be added
+
+    var splittedID = action.id.split("_______");
+    var thisSurveyID = splittedID[0];
+    var thisChoice = splittedID[1];
+    console.log(thisSurveyID + "; " + thisChoice);
+    for (var i = 0; i < surveyArray.length; i++) {  // Find right survey
+        var survey = surveyArray[i];
+        if (getSurveyID(survey) === thisSurveyID) {
+            survey.choices[thisChoice] += 1;
+            break;
+        }
+    }
+    document.getElementById(thisSurveyID).classList.add("replaceable");
+    put(response, {"surveyArray": surveyArray});
+}
 
 function setSimulation(response) {
     put(response, {

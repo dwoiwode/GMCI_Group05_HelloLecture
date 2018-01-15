@@ -17,12 +17,12 @@
     <button onclick="reset()">Reset Database</button>
 
     <label>
-        <input type="checkbox" name="simulation" id="surveyVotes" onclick="set('simulation');"checked>
+        <input type="checkbox" name="simulation" id="surveyVotes" onclick="set('simulation');" checked>
         Simulate Random survey votes
     </label>
 
     <label>
-        <input type="checkbox" name="simulation" id="questionVotes" onclick="set('simulation');"checked>
+        <input type="checkbox" name="simulation" id="questionVotes" onclick="set('simulation');" checked>
         Simulate random question upvotes
     </label>
 
@@ -30,6 +30,7 @@
         <input type="checkbox" name="simulation" id="answerVotes" onclick="set('simulation');" checked>
         Simulate random answer upvotes
     </label>
+    <button class="addNewSurveyButton" onclick=setMarked(this,"surveys")>Add new Survey</button>
 </div>
 <script src="../js/woz.js"></script>
 </body>
