@@ -11,3 +11,9 @@ function addAccordionEventListener(accordion) {
     });
 }
 
+function setActive(accordion) {
+    accordion.classList.toggle("active",true);
+    var panel = accordion.nextElementSibling;
+    panel.style.maxHeight = panel.scrollHeight + "px";
+}
+

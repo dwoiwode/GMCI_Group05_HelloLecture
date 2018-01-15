@@ -47,8 +47,8 @@ origins = *
 var request2 = new XMLHttpRequest(); // TODO think up a better name
 
 request2.onreadystatechange = function () {
-    console.log("onreadystatechange: " + request2.readyState + ", " + request2.status);
-    console.log(request2.responseText);
+    // console.log("onreadystatechange: " + request2.readyState + ", " + request2.status);
+    // console.log(request2.responseText);
     if (request2.readyState === 4) {
         if (request2.status === 200) {
             var response = JSON.parse(request2.responseText);
@@ -129,13 +129,15 @@ function setQuestion(response) {
     for (var i=0;i<questionArray.length; i++) {
         var question = questionArray[i];
         if (question.text === newQuestionText) {
+            setActive(document.getElementById(getQuestionID(question)).getElementsByClassName("accordion")[0]);
             return;
         }
     }
-    var newQuestion = {text: newQuestionText, upvotes: 0, responses: {}};
+    var newQuestion = {text: newQuestionText, upvotes: Math.floor(Math.random() * 100), responses: {}};
+    // var newQuestion = {text: newQuestionText, upvotes: 0, responses: {}};
     questionArray.push(newQuestion);
     questionArray.sort(function (a, b) {return b.upvotes - a.upvotes;});
-    put(response, {"questionArray":response.questionArray});
+    put(response, {"questionArray":questionArray});
 }
 
 function setSurvey(response) {

@@ -71,6 +71,7 @@ var updateHandler = {
     "questions": updateQuestions
     //"surveys" : updateSurvey
 };
+
 function createNewQuestion(question, questionContainer) {
     var singleQuestion = document.createElement("div");
     singleQuestion.className = "singleQuestion";
@@ -79,15 +80,20 @@ function createNewQuestion(question, questionContainer) {
     newAccordion.className = "accordion";
     newAccordion.innerText = question.text + " (" + question.upvotes + ")";
     addAccordionEventListener(newAccordion);
+
     var newPanel = document.createElement("div");
     newPanel.className = "panel";
     newPanel.innerHTML = "<p>This is the answer</p>";
 
+    var newReplyInput = document.createElement("input");
+    newReplyInput.type = "text";
+
+    newPanel.appendChild(newReplyInput);
     singleQuestion.appendChild(newAccordion);
     singleQuestion.appendChild(newPanel);
-    questionContainer.appendChild(singleQuestion);
     return singleQuestion;
 }
+
 function getQuestionID(question) {
     return "question_" + question.text.replace(" ", "_");
 }
@@ -96,20 +102,20 @@ function updateQuestions(response) {
     /**
      * Updates shown Questions including order
      */
-    console.log("Update Questions got called");
-    console.log(response);
+    // console.log("Update Questions got called");
+    // console.log(response);
     questionContainer = document.getElementById("questionsContainer");
-    questionContainer.innerHTML = "";
+    // questionContainer.innerHTML = "";
     currentQuestions = questionContainer.getElementsByClassName("singleQuestion");
+    response.questionArray = response.questionArray ? response.questionArray: [];
+    document.getElementById("questionTabSelector").innerHTML = "Questions (" + response.questionArray.length + ")";
     for (var i = 0; i < response.questionArray.length; i++) {
         var question = response.questionArray[i];
         var questionID = getQuestionID(question);
-        thisQuestion = document.getElementById(questionID);
-        thisQuestion = thisQuestion ? thisQuestion : createNewQuestion(question, questionContainer);
-        thisAccordion = thisQuestion.getElementsByClassName("accordion")[0];
-        thisPanel = thisQuestion.getElementsByClassName("panel")[0];
+        var thisQuestion = document.getElementById(questionID);
+        thisQuestion = thisQuestion ? thisQuestion : createNewQuestion(question);
+        questionContainer.appendChild(thisQuestion);
     }
-    // response.questionArray = response.questionArray ? response.questionArray: [];
 }
 
 
