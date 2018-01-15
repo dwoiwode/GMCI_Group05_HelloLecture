@@ -46,6 +46,16 @@
 <!-- Start of surveyTab-->
 <div id="surveyTab" class="tabcontent">
     <h2>Surveys go here</h2>
+    <div class="surveyContainer" id="surveysContainer">
+        <!--
+        <div class="singleQuestion" id="question_QUESTIONID">
+            <button class="accordion">Question 1</button>
+            <div class="panel">
+                <p>Lorem ipsum...</p>
+            </div>
+        </div> -->
+        <!-- Tabs will be created from database -->
+    </div>
 </div> <!-- End of surveyTab-->
 
 
@@ -59,6 +69,7 @@
 </body>
 <script>
     /* Load Question tab on start*/
+    set("surveys");
     document.getElementById("questionTabSelector").click();
 
     /* Add Eventhandler to dummy accordions. Can be removed when reading questions from db works*/

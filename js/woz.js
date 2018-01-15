@@ -117,16 +117,15 @@ var dbname = "gmci_hello_lecture";
 var dburl = "http://127.0.0.1:5984/" + dbname + "/";
 var setHandler = {
     "questions": setQuestion,
-    //"surveys": setSurvey,
+    "surveys": setSurvey,
 };
 
 // Question
 function setQuestion(response) {
-
     questionArray = response.questionArray ? response.questionArray : [];
     var newQuestionText = document.getElementById("newQuestion").value;
     console.log("Lenght of questions: " + questionArray.length);
-    for (var i=0;i<questionArray.length; i++) {
+    for (var i = 0; i < questionArray.length; i++) {
         var question = questionArray[i];
         if (question.text === newQuestionText) {
             setActive(document.getElementById(getQuestionID(question)).getElementsByClassName("accordion")[0]);
@@ -136,11 +135,19 @@ function setQuestion(response) {
     var newQuestion = {text: newQuestionText, upvotes: Math.floor(Math.random() * 100), responses: {}};
     // var newQuestion = {text: newQuestionText, upvotes: 0, responses: {}};
     questionArray.push(newQuestion);
-    questionArray.sort(function (a, b) {return b.upvotes - a.upvotes;});
-    put(response, {"questionArray":questionArray});
+    questionArray.sort(function (a, b) {
+        return b.upvotes - a.upvotes;
+    });
+    put(response, {"questionArray": questionArray});
 }
 
 function setSurvey(response) {
+    var surveyArray = response.surveyArray ? response.surveyArray : [];
+    var newSurveyName = "New beautiful Survey (" + response.surveyArray.length +")";
+
+    var newSurvey = {text: newSurveyName, state: 0, responses: {"Current Answer1": 0, "Current Answer2": 0}};
+    surveyArray.push(newSurvey);
+    put(response, {"surveyArray": surveyArray});
 }
 
 function mytext(response) {

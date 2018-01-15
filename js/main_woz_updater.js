@@ -35,12 +35,12 @@ var request = new XMLHttpRequest();
 request.onreadystatechange = function () {
     // console.log("onreadystatechange: " + request2.readyState + ", " +  request2.status);
     // console.log(request2.responseText);
-    if (request.readyState == 4) {
-        if (request.status == 200) {
+    if (request.readyState === 4) {
+        if (request.status === 200) {
             var response = JSON.parse(request.responseText);
             updateHandler[response._id](response);
         }
-        if (request.status == 404) {
+        if (request.status === 404) {
             console.log("not found: " + request.responseText);
         }
     }
@@ -68,11 +68,11 @@ var intervalID = setInterval(update, 1000);
 var dbname = "gmci_hello_lecture";
 var dburl = "http://127.0.0.1:5984/" + dbname + "/";
 var updateHandler = {
-    "questions": updateQuestions
-    //"surveys" : updateSurvey
+    "questions": updateQuestions,
+    "surveys" : updateSurvey,
 };
 
-function createNewQuestion(question, questionContainer) {
+function createNewQuestion(question) {
     var singleQuestion = document.createElement("div");
     singleQuestion.className = "singleQuestion";
     singleQuestion.id = getQuestionID(question);
@@ -94,8 +94,30 @@ function createNewQuestion(question, questionContainer) {
     return singleQuestion;
 }
 
+function createNewSurvey(survey) {
+    var singleSurvey = document.createElement("div");
+    singleSurvey.className = "singleSurvey";
+    singleSurvey.id = getSurveyID(survey);
+    var newAccordion = document.createElement("button");
+    newAccordion.className = "accordion";
+    newAccordion.innerText = survey.text;
+    addAccordionEventListener(newAccordion);
+
+    var newPanel = document.createElement("div");
+    newPanel.className = "panel";
+    newPanel.innerHTML = "<p>This are the answers</p>";
+
+    singleSurvey.appendChild(newAccordion);
+    singleSurvey.appendChild(newPanel);
+    return singleSurvey;
+}
+
 function getQuestionID(question) {
     return "question_" + question.text.replace(" ", "_");
+}
+
+function getSurveyID(survey) {
+    return "survey_" + survey.text.replace(" ", "_");
 }
 
 function updateQuestions(response) {
@@ -104,9 +126,8 @@ function updateQuestions(response) {
      */
     // console.log("Update Questions got called");
     // console.log(response);
-    questionContainer = document.getElementById("questionsContainer");
+    var questionContainer = document.getElementById("questionsContainer");
     // questionContainer.innerHTML = "";
-    currentQuestions = questionContainer.getElementsByClassName("singleQuestion");
     response.questionArray = response.questionArray ? response.questionArray: [];
     document.getElementById("questionTabSelector").innerHTML = "Questions (" + response.questionArray.length + ")";
     for (var i = 0; i < response.questionArray.length; i++) {
@@ -119,11 +140,22 @@ function updateQuestions(response) {
 }
 
 
-/*function updateSurvey(response) {
-    /!**
+function updateSurvey(response) {
+    /**
      * Updates shown Survey results
-     *!/
-}*/
+     */
+    var surveyContainer = document.getElementById("surveysContainer");
+    // questionContainer.innerHTML = "";
+    response.surveyArray = response.surveyArray ? response.surveyArray: [createNewSurvey([{"text":"New epic survey " + Math.random()}])];
+    document.getElementById("surveyTabSelector").innerHTML = "Surveys (" + response.surveyArray.length + ")";
+    for (var i = 0; i < response.surveyArray.length; i++) {
+        var survey = response.surveyArray[i];
+        var surveyID = getSurveyID(survey);
+        var thisSurvey = document.getElementById(surveyID);
+        thisSurvey = thisSurvey ? thisSurvey : createNewSurvey(survey);
+        surveyContainer.appendChild(thisSurvey);
+    }
+}
 
 
 
