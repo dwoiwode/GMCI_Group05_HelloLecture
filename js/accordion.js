@@ -17,3 +17,4 @@ function setActive(accordion) {
     panel.style.maxHeight = panel.scrollHeight + "px";
 }
 
+

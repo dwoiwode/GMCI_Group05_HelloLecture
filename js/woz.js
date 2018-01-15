@@ -123,30 +123,58 @@ var setHandler = {
 
 // Question
 function setQuestion(response) {
+    var actions = document.getElementsByClassName("marked");
+    for (var i = 0; i < actions.length; i++) {
+        var action = actions[i];
+        action.classList.remove("marked");
+        switch (action.className) {
+            case "sendNewQuestionButton":
+                addNewQuestion(response);
+                break;
+            case "sendReplyButton":
+                addNewReply(action, response);
+        }
+    }
+}
+
+function addNewReply(action, response) {
+    // curQuestionId global variable from woz updater
+    var questionArray = response.questionArray;
+    if (!questionArray) return;  // Cannot be empty when reply to question wanna be added
+    var thisQuestionID = action.id.substring(0, action.id.length - 7);
+    console.log(thisQuestionID);
+    var replyText = document.getElementById(thisQuestionID + "_INPUT").value;
+    for (var i = 0; i < questionArray.length; i++) {  // Find right question
+        var question = questionArray[i];
+        if (getQuestionID(question) === thisQuestionID) {
+            for (var j = 0; j < question.responses.length; j++) {  // Is question already in answers
+                var resp = question.responses[j];
+                if (resp[0] === replyText) {
+                    resp[1] += 1;
+                }
+            }
+            question.responses.push([replyText, 0]);
+            question.responses.sort(function (a, b) {
+                return b[1] - a[1];
+            });
+            break;
+        }
+    }
+    put(response, {"questions":questionArray})
+}
+
+function addNewQuestion(response) {
     questionArray = response.questionArray ? response.questionArray : [];
-    var newQuestionText = document.getElementById("newQuestion").value;
+    var newQuestionText = document.getElementById("newQuestionText").value;
     console.log("Lenght of questions: " + questionArray.length);
     for (var i = 0; i < questionArray.length; i++) {
         var question = questionArray[i];
-
-
-        // curQuestionId global variable from woz updater
-        if (question.id === curQuestionId) {
-            alert(questionArray[i].responses[0]);
-            var answers = question.responses ? question.responses : [];
-
-            if (!answers.find(curAnswer)) {
-                var answerObj = {text: curAnswer, upvotes: 0};
-                answers.push(answerObj);
-                questionArray[i].responses = answers;
-            }
-        }
-
         if (question.text === newQuestionText) {
             setActive(document.getElementById(getQuestionID(question)).getElementsByClassName("accordion")[0]);
             return;
         }
     }
+
     var newQuestion = {text: newQuestionText, upvotes: Math.floor(Math.random() * 100), responses: []};
     // var newQuestion = {text: newQuestionText, upvotes: 0, responses: {}};
     questionArray.push(newQuestion);
@@ -158,7 +186,7 @@ function setQuestion(response) {
 
 function setSurvey(response) {
     var surveyArray = response.surveyArray ? response.surveyArray : [];
-    var newSurveyName = "New beautiful Survey (" + response.surveyArray.length +")";
+    var newSurveyName = "New beautiful Survey (" + surveyArray.length + ")";
 
     var newSurvey = {text: newSurveyName, state: 0, responses: {"Current Answer1": 0, "Current Answer2": 0}};
     surveyArray.push(newSurvey);
@@ -167,13 +195,13 @@ function setSurvey(response) {
 
 
 function setSimulation(response) {
-    var simulateSurvey =
     put(response, {
         "simulateSurvey": document.getElementById("surveyVotes").checked,
         "simulateQuestion": document.getElementById("questionVotes").checked,
         "simulateAnswer": document.getElementById("answerVotes").checked
     });
 }
+
 function mytext(response) {
     // Old functions
     var src = getCheckedRadio("animalImage");

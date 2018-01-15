@@ -38,8 +38,8 @@
         <!-- Tabs will be created from database -->
     </div>
     <div class="footer">
-        <input type="text" name="newQuestion" id="newQuestion">
-        <button id="sendNewQuestion" onclick="set('questions');"> >>> </button>
+        <input type="text" id="newQuestionText">
+        <button class="sendNewQuestionButton" id="sendNewQuestion" onclick="setMarked(this, 'questions');"> >>> </button>
     </div>
 </div> <!-- End of questionTab-->
 
@@ -68,7 +68,7 @@
 </body>
 <script>
     /* Load Question tab on start*/
-    // set("surveys");
+    set("surveys");
     document.getElementById("questionTabSelector").click();
 
     /* Add Eventhandler to dummy accordions. Can be removed when reading questions from db works*/
