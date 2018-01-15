@@ -61,7 +61,7 @@ function update() {
 
 // request2 updates at a fixed interval (ms)
 var intervalID = setInterval(update, 1000);
-
+console.log(intervalID);
 ///////////////////////////////////////////////////////////////////////////////
 // your code below
 
@@ -69,7 +69,7 @@ var dbname = "gmci_hello_lecture";
 var dburl = "http://127.0.0.1:5984/" + dbname + "/";
 var updateHandler = {
     "questions": updateQuestions,
-    "surveys" : updateSurvey,
+    "surveys" : updateSurvey
 };
 
 function createNewQuestion(question) {
@@ -85,12 +85,22 @@ function createNewQuestion(question) {
     newPanel.className = "panel";
     newPanel.innerHTML = "<p>This is the answer</p>";
 
+    //init answer button with class answer-btn
+    var answerBtn = document.createElement("Button");
+    answerBtn.className = "answer-btn";
+    answerBtn.innerHTML = "answer";
+    answerBtn.addEventListener("click", function () {
+        alert('click');
+    });
+
     var newReplyInput = document.createElement("input");
     newReplyInput.type = "text";
 
     newPanel.appendChild(newReplyInput);
+    newPanel.appendChild(answerBtn);
     singleQuestion.appendChild(newAccordion);
     singleQuestion.appendChild(newPanel);
+
     return singleQuestion;
 }
 
@@ -138,7 +148,6 @@ function updateQuestions(response) {
         questionContainer.appendChild(thisQuestion);
     }
 }
-
 
 function updateSurvey(response) {
     /**
