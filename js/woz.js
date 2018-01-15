@@ -129,8 +129,10 @@ function setQuestion(response) {
     for (var i = 0; i < questionArray.length; i++) {
         var question = questionArray[i];
 
+
         // curQuestionId global variable from woz updater
         if (question.id === curQuestionId) {
+            alert(questionArray[i].responses[0]);
             var answers = question.responses ? question.responses : [];
 
             if (!answers.find(curAnswer)) {
@@ -145,7 +147,7 @@ function setQuestion(response) {
             return;
         }
     }
-    var newQuestion = {text: newQuestionText, upvotes: Math.floor(Math.random() * 100), responses: {}};
+    var newQuestion = {text: newQuestionText, upvotes: Math.floor(Math.random() * 100), responses: []};
     // var newQuestion = {text: newQuestionText, upvotes: 0, responses: {}};
     questionArray.push(newQuestion);
     questionArray.sort(function (a, b) {

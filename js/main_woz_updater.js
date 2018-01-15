@@ -102,7 +102,7 @@ function createNewQuestion(question) {
         var field = document.getElementById(inputId);
         curAnswer = field.value;
         curQuestionId = id;
-        alert(curAnswer);
+        set('questions');
     });
 
     newPanel.appendChild(newReplyInput);
