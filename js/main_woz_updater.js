@@ -30,6 +30,9 @@ bind_address = 0.0.0.0
 origins = *
 */
 
+var curQuestionId = "question";
+var curAnswer = "answer";
+
 var request = new XMLHttpRequest();
 
 request.onreadystatechange = function () {
@@ -75,7 +78,8 @@ var updateHandler = {
 function createNewQuestion(question) {
     var singleQuestion = document.createElement("div");
     singleQuestion.className = "singleQuestion";
-    singleQuestion.id = getQuestionID(question);
+    var id = getQuestionID(question);
+    singleQuestion.id = id;
     var newAccordion = document.createElement("button");
     newAccordion.className = "accordion";
     newAccordion.innerText = question.text + " (" + question.upvotes + ")";
@@ -85,16 +89,21 @@ function createNewQuestion(question) {
     newPanel.className = "panel";
     newPanel.innerHTML = "<p>This is the answer</p>";
 
+    var newReplyInput = document.createElement("input");
+    newReplyInput.type = "text";
+    var inputId = singleQuestion.id + "_input";
+    newReplyInput.id = inputId;
+
     //init answer button with class answer-btn
     var answerBtn = document.createElement("Button");
     answerBtn.className = "answer-btn";
     answerBtn.innerHTML = "answer";
     answerBtn.addEventListener("click", function () {
-        alert('click');
+        var field = document.getElementById(inputId);
+        curAnswer = field.value;
+        curQuestionId = id;
+        alert(curAnswer);
     });
-
-    var newReplyInput = document.createElement("input");
-    newReplyInput.type = "text";
 
     newPanel.appendChild(newReplyInput);
     newPanel.appendChild(answerBtn);
@@ -103,6 +112,7 @@ function createNewQuestion(question) {
 
     return singleQuestion;
 }
+
 
 function createNewSurvey(survey) {
     var singleSurvey = document.createElement("div");
@@ -115,7 +125,7 @@ function createNewSurvey(survey) {
 
     var newPanel = document.createElement("div");
     newPanel.className = "panel";
-    newPanel.innerHTML = "<p>This are the answers</p>";
+    newPanel.innerHTML = "<p>This are the responses</p>";
 
     singleSurvey.appendChild(newAccordion);
     singleSurvey.appendChild(newPanel);
@@ -147,6 +157,13 @@ function updateQuestions(response) {
         thisQuestion = thisQuestion ? thisQuestion : createNewQuestion(question);
         questionContainer.appendChild(thisQuestion);
     }
+/*
+    for (var k = 0; k < response.questionArray.length; k++) {
+        var q = response.questionArray[k];
+        if (q.responses) {
+            alert(q.responses[0])
+        }
+    }*/
 }
 
 function updateSurvey(response) {

@@ -118,7 +118,7 @@ var dburl = "http://127.0.0.1:5984/" + dbname + "/";
 var setHandler = {
     "questions": setQuestion,
     "surveys": setSurvey,
-    "simulation": setSimulation,
+    "simulation": setSimulation
 };
 
 // Question
@@ -128,6 +128,18 @@ function setQuestion(response) {
     console.log("Lenght of questions: " + questionArray.length);
     for (var i = 0; i < questionArray.length; i++) {
         var question = questionArray[i];
+
+        // curQuestionId global variable from woz updater
+        if (question.id === curQuestionId) {
+            var answers = question.responses ? question.responses : [];
+
+            if (!answers.find(curAnswer)) {
+                var answerObj = {text: curAnswer, upvotes: 0};
+                answers.push(answerObj);
+                questionArray[i].responses = answers;
+            }
+        }
+
         if (question.text === newQuestionText) {
             setActive(document.getElementById(getQuestionID(question)).getElementsByClassName("accordion")[0]);
             return;
