@@ -156,3 +156,8 @@ html, body {
 #survey {
     grid-row: 3 / 4;
 }
+
+.answer-container {
+    display: grid;
+    grid-template-columns: 8fr 2fr 2fr;
+}
