@@ -201,23 +201,3 @@ function setSimulation(response) {
         "simulateAnswer": document.getElementById("answerVotes").checked
     });
 }
-
-function mytext(response) {
-    // Old functions
-    var src = getCheckedRadio("animalImage");
-    var width = parseInt(document.getElementById("animalWidth").value);
-    put(response, {"src": src, "width": width});
-
-
-    var value = response.value ? response.value : 0;
-    // console.log(value);
-    put(response, {"value": value + 1});
-
-    var checked = document.getElementById("showCounter").checked;
-    // console.log(checked);
-    put(response, {"checked": checked});
-
-    var value = document.getElementById("mytext").value;
-//  console.log("mytext::value = " + value);
-    put(response, {"value": value});
-}
