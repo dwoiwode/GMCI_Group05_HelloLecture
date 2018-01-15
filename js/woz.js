@@ -160,7 +160,7 @@ function addNewReply(action, response) {
             break;
         }
     }
-    put(response, {"questions":questionArray})
+    put(response, {"questionArray":questionArray})
 }
 
 function addNewQuestion(response) {
