@@ -1,0 +1,28 @@
+.title{
+    font-size: 20pt;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    padding: 2px;
+    color: white;
+}
+.main{
+    background-color: #00A5CF;
+    font-size: 20pt;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    padding: 2px;
+}
+.button{
+    Display:grid;
+    align-items: center;
+    text-align: center;
+}
+#back_btn{
+    font-size: 15pt;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    width: 200pt;
+    background-color: blue;
+    border: none;
+
+}

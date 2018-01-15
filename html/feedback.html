@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>feedback</title>
+
+
+</head>
+<link rel="stylesheet" href="../css/feedback_layOut.css">
+<body>
+<div id="feedback_header" class="header">
+    <div id="feedback_title" class="title">
+        <h1>Give some Feedback</h1>
+    </div>
+</div>
+
+<div id="feedback_window" class="main">
+    <div class="buttons"></div>
+        <input id="positive_btn" type="button" name="join" value="Positive" onclick="addFeedbackfield(this);">
+        <input id="negative_btn" type="button" name="join" value="Negative" onclick="addFeedbackfield(this);">
+</div>
+<div id="back_button" class="footer">
+    <input id="back_btn" type="button" name="join" value="Go Back" onclick="location.href='Main.html';">
+</div>
+</body>
+<script src="../js/feedback.js"></script>
+</html>
