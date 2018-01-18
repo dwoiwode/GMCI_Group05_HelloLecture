@@ -1,24 +1,20 @@
-
 body, html {
     margin: 0;
 }
-
-
 .header {
-    background-color: #00A5CF;
-    font-size: 20pt;
-    font-family: 'Roboto', sans-serif;
     text-align: center;
     padding: 2px;
 }
 .main{
 
     display: grid;
-    align-content: center;
+    align-content: end;
     justify-content: center;
     align-items: end;
     grid-gap: 2em;
     grid-template-rows: repeat(5, 1fr);
+
+
 }
 
 .title {
@@ -33,52 +29,9 @@ body, html {
     grid-column: 2/ 3;
 }
 
-.footer {
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    align-items:end;
-}
+
 
 .new-btn {
     grid-column: 10;
 }
 
-#positive_btn {
-    font-size: 15pt;
-    font-family: 'Roboto', sans-serif;
-    color: white;
-
-    padding: 8pt 17pt 8pt 17pt;
-    border-radius: 3px;
-    background-color: #00A5CF;
-    border: none;
-    align-items: end;
-
-    cursor: pointer;
-}
-#negative_btn {
-    font-size: 15pt;
-    font-family: 'Roboto', sans-serif;
-    color: white;
-
-    padding: 8pt 17pt 8pt 17pt;
-    border-radius: 3px;
-    background-color: #00A5CF;
-    border: none;
-    align-items: end;
-
-    cursor: pointer;
-}
-#back_btn {
-    font-size: 15pt;
-    font-family: 'Roboto', sans-serif;
-    color: white;
-
-    padding: 8pt 17pt 8pt 17pt;
-    border-radius: 3px;
-    background-color: #00A5CF;
-    border: none;
-    align-items: end;
-
-    cursor: pointer;
-}

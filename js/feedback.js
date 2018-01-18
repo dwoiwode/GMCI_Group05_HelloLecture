@@ -1,23 +1,19 @@
 
 var counter=0;
 function addFeedbackfield(button){
-        if(counter==0) {
-            var feld = document.createElement('input');
-            var sendButton = document.createElement('button');
-            sendButton.innerText = "send Feedback";
+    var field=document.getElementById("feedBack_field");
+    field.style.visibility="visible";
+    var btn=document.getElementById("feedback_btn");
+    btn.style.visibility="visible";
 
-            sendButton.addEventListener("click", function () {
-                feld.value = "";
-                location.href='feedback_response.html'
-            });
+    if(button.value=="Positive"){
+        button.style.backgroundColor="Green";
+        document.getElementById("negative_btn").style.backgroundColor="#00A8CF";
 
-            var form = document.getElementById('feedback_window');
-
-            form.appendChild(feld);
-            form.appendChild(sendButton);
-            counter=counter+1;
-            button.style.backgroundColor="Green";
-        }
-
+    }
+    else{
+        button.style.backgroundColor="Green";
+        document.getElementById("positive_btn").style.backgroundColor="#00A8CF";
+    }
 
 }
