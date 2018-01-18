@@ -7,6 +7,8 @@
 
 </head>
 <link rel="stylesheet" href="../css/feedback_layOut.css">
+<link rel="stylesheet" href="../css/feedBack_style.css">
+
 <body>
 <div id="feedback_header" class="header">
     <div id="feedback_title" class="title">
@@ -16,11 +18,18 @@
 
 <div id="feedback_window" class="main">
     <div class="buttons"></div>
-        <input id="positive_btn" type="button" name="join" value="Positive" onclick="addFeedbackfield(this);">
-        <input id="negative_btn" type="button" name="join" value="Negative" onclick="addFeedbackfield(this);">
+        <input id="positive_btn" type="button" value="Positive"  onclick="addFeedbackfield(this);">
+        <input id="negative_btn" type="button" value="Negative" onclick="addFeedbackfield(this);">
+    <textarea  id="feedBack_field" rows="3" cols="50" style="visibility: hidden">
+    </textarea>
+        <input id="feedback_btn" type="button" value="Send" style="visibility: hidden"
+               onclick=location.href='feedback_response.html';>
+    </div>
 </div>
 <div id="back_button" class="footer">
+
     <input id="back_btn" type="button" name="join" value="Go Back" onclick="location.href='Main.html';">
+
 </div>
 </body>
 <script src="../js/feedback.js"></script>
