@@ -198,6 +198,7 @@ function addNewReply(action, response) {
 
 function upvote(action, response) {
     var answerID = action.id.substring(0, action.id.length - 8);
+    action.onclick = null;
     var questionArray = response.questionArray ? response.questionArray : [];
     for (var i = 0; i < questionArray.length; i++) {
         var question = questionArray[i];
