@@ -73,6 +73,26 @@ var updateHandler = {
     "simulation": simulate
 };
 
+/* Helper */
+function setMarked(button, doc) {
+    button.classList.add("marked");
+    set(doc);
+}
+
+// TODO: Maybe use some kind of hash functions to generate IDs?
+function getQuestionID(question) {
+    return "question_" + question.text.replace(" ", "_");
+}
+
+function getAnswerID(question, answer) {
+    return "answer_" + question.text.replace(" ", "_") + "_" + answer[0].replace(" ", "_");
+}
+
+function getSurveyID(survey) {
+    return "survey_" + survey.text.replace(" ", "_");
+}
+
+/* create new Part */
 function createNewQuestion(question) {
     // Question object
     var singleQuestion = document.createElement("div");
@@ -84,17 +104,22 @@ function createNewQuestion(question) {
     var newAccordion = document.createElement("button");
     newAccordion.className = "accordion";
     newAccordion.innerText = question.text + " (" + question.upvotes + ")";
+    newAccordion.id = id + "_accordion";
     addAccordionEventListener(newAccordion);
 
     // Answer panel
     var newPanel = document.createElement("div");
     newPanel.className = "panel";
-    newPanel.innerHTML = "<p></p>";
+    newPanel.id = id + "_panel";
+    newPanel.innerHTML = "";
 
     // Input field
     var newReplyInput = document.createElement("input");
     newReplyInput.type = "text";
     newReplyInput.id = id + "_INPUT";
+    newReplyInput.style.width = "70%";
+    newReplyInput.style.marginTop = "5px";
+    newReplyInput.placeholder = "Your answer...";
 
     //init answer button with class answer-btn
     var sendAnswerButton = document.createElement("Button");
@@ -113,11 +138,37 @@ function createNewQuestion(question) {
     return singleQuestion;
 }
 
-function setMarked(button, doc) {
-    button.classList.add("marked");
-    set(doc);
-}
+function createNewAnswer(answer, answerID) {
+    var answerContainer = document.createElement("div");
+    answerContainer.className = "singleAnswer";
+    answerContainer.id = answerID;
 
+    var answerField = document.createElement("div");
+    answerField.innerHTML = answer[0];
+
+    // Vote button
+    var vote = document.createElement("div");
+    vote.className = "vote";
+
+    var voteBtn = document.createElement("div");
+    voteBtn.className = "increment up";
+    voteBtn.id = answerID + "_voteBtn";
+    voteBtn.onclick = function () {
+        setMarked(voteBtn, "questions")
+    };
+
+    var count = document.createElement("div");
+    count.className = "count";
+    count.id = answerID + "_count";
+
+    vote.appendChild(voteBtn);
+    vote.appendChild(count);
+
+    answerContainer.appendChild(answerField);
+    answerContainer.appendChild(vote);
+
+    return answerContainer;
+}
 
 function createNewSurvey(survey) {
     // Create Survey container
@@ -133,7 +184,7 @@ function createNewSurvey(survey) {
 
     // Create container for answers
     var newPanel = document.createElement("div");
-    newPanel.className = "panel";
+    newPanel.className = "panel surveyPanel";
 
     for (var choice in survey.choices) {
         var newChoice = document.createElement("button");
@@ -143,6 +194,7 @@ function createNewSurvey(survey) {
         newChoice.onclick = function () {
             setMarked(this, "surveys");
         };
+        newChoice.style.width = "100%";
         newPanel.appendChild(newChoice);
         newPanel.appendChild(document.createElement("p"))
     }
@@ -153,18 +205,7 @@ function createNewSurvey(survey) {
     return singleSurvey;
 }
 
-function getQuestionID(question) {
-    return "question_" + question.text.replace(" ", "_");
-}
-
-function getAnswerID(answer) {
-    return "answer_" + answer[0].replace(" ", "_");
-}
-
-function getSurveyID(survey) {
-    return "survey_" + survey.text.replace(" ", "_");
-}
-
+/* Update Functions */
 function updateQuestions(response) {
     /**
      * Updates shown Questions including order
@@ -173,40 +214,36 @@ function updateQuestions(response) {
     // questionContainer.innerHTML = "";
     response.questionArray = response.questionArray ? response.questionArray : [];
     document.getElementById("questionTabSelector").innerHTML = "Questions (" + response.questionArray.length + ")";
+    // question
     for (var i = 0; i < response.questionArray.length; i++) {
         var question = response.questionArray[i];
         var questionID = getQuestionID(question);
+
+        // Create new Question if not exists yet
         var thisQuestion = document.getElementById(questionID);
-
-
-
-
+        var newQuestion = !thisQuestion;
         thisQuestion = thisQuestion ? thisQuestion : createNewQuestion(question);
-
-        for (var k = 0; k < question.responses.length; k++) {
-            var answer = document.createElement("div");
-            var vote = document.createElement("div");
-            var voteBtn = document.createElement("button");
-            voteBtn.innerHTML = "like";
-            voteBtn.addEventListener("click", function () {
-                alert("upvoted");
-            });
-            var answerContainer = document.createElement("div");
-            answerContainer.appendChild(answer);
-            answerContainer.appendChild(vote);
-            answerContainer.appendChild(voteBtn);
-
-            answerContainer.className = "answer-container";
-            answer.className = "answer";
-            vote.className = "vote";
-            answer.innerHTML = question.responses[k][0];
-            answerContainer.id = getAnswerID(question.responses[k]);
-            vote.innerHTML = question.responses[k][1];
-
-            if (document.getElementById(answerContainer.id) == null)
-            thisQuestion.children[1].appendChild(answerContainer);
+        if (newQuestion) {
+            questionContainer.appendChild(thisQuestion);
         }
-        questionContainer.appendChild(thisQuestion);
+        document.getElementById(questionID + "_accordion").innerHTML = question.text + " (Replies: " + question.responses.length + "; Upvotes: " + question.upvotes + ")";
+        for (var k = 0; k < question.responses.length; k++) {
+            // answers
+            var answer = question.responses[k];
+            var answerID = getAnswerID(question, answer);
+
+            // Create new Answer if not exists yet
+            var thisAnswer = document.getElementById(answerID);
+            var newAnswer = !thisAnswer;
+            thisAnswer = thisAnswer ? thisAnswer : createNewAnswer(answer, answerID);
+            if (newAnswer) {
+                document.getElementById(getQuestionID(question) + "_panel").appendChild(thisAnswer);
+                // thisQuestion.children[1].appendChild(thisAnswer);
+            }
+
+            document.getElementById(answerID + "_count").innerHTML = answer[1];
+        }
+
     }
 
 }
@@ -226,7 +263,6 @@ function updateSurvey(response) {
         thisSurvey = thisSurvey ? thisSurvey : createNewSurvey(survey);
         thisSurvey.classList.remove("singleSurvey");
         switch (thisSurvey.className) {
-
             case "replaceable":
                 replaceButtons(thisSurvey, response);
                 thisSurvey.classList.remove("replaceable");
@@ -241,6 +277,7 @@ function updateSurvey(response) {
     }
 }
 
+/* Survey helper */
 function replaceButtons(survey, response) {
     var surveyData = getSurveyData(survey, response);
     for (var choice in surveyData.choices) {
@@ -257,9 +294,9 @@ function updateButtons(survey, response) {
     }
     for (choice in surveyData.choices) {
         var newChoice = document.getElementById(survey.id + "_______" + choice);
-        var newWidth = Math.floor(surveyData.choices[choice] / totalVotes * 1000) + "px";
-        console.log(newWidth);
+        var newWidth = (surveyData.choices[choice] / totalVotes*100) + "%";
         newChoice.style.width = newWidth;
+        newChoice.innerHTML = choice + " (" + Math.floor(surveyData.choices[choice] / totalVotes*10000)/100 + "%)";
     }
 
 }
@@ -275,27 +312,28 @@ function getSurveyData(survey, response) {
     return null;
 }
 
+/* Simulation */
 function simulate(response) {
     if (response.simulateSurvey) {
-        simulateSurveyParticipation();
+        simulateSurveyParticipation(response);
     }
     if (response.simulateQuestion) {
-        simulateQuestionUpvotes();
+        simulateQuestionUpvotes(response);
     }
     if (response.simulateAnswer) {
-        simulateAnswerUpvotes()
+        simulateAnswerUpvotes(response)
     }
 }
 
-function simulateSurveyParticipation() {
+function simulateSurveyParticipation(response) {
     // TODO
 }
 
-function simulateQuestionUpvotes() {
+function simulateQuestionUpvotes(response) {
     // TODO
 }
 
-function simulateAnswerUpvotes() {
+function simulateAnswerUpvotes(response) {
     // TODO
 }
 

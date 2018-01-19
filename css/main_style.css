@@ -4,7 +4,7 @@
 
 html, body {
     margin: 0;
-    background-color : #3f4145
+    background-color: #3f4145
 }
 
 .tabWrapper {
@@ -51,6 +51,7 @@ html, body {
     grid-column: 1;
     grid-row: 1;
 }
+
 #surveyTab {
     grid-column: 1;
     grid-row: 2;
@@ -83,7 +84,7 @@ html, body {
 .panel {
     padding: 0 18px;
     margin: 0 0 5px 30px;
-    background-color: #cff5ff;
+    background-color: #cff5df;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
@@ -101,7 +102,7 @@ html, body {
     grid-row: 1;
 }
 
-#sendNewQuestion{
+#sendNewQuestion {
     grid-column: 20;
     grid-row: 1;
     background-color: #00A5CF;
@@ -145,6 +146,7 @@ html, body {
     float: left;
     outline: none;
 }
+
 /* modal window content */
 #help {
     grid-row: 1 / 2;
@@ -158,7 +160,92 @@ html, body {
     grid-row: 3 / 4;
 }
 
-.answer-container {
+.singleAnswer {
     display: grid;
-    grid-template-columns: 8fr 2fr 2fr;
+    grid-template-columns: 8fr 0.1fr;
+    margin:5px;
+}
+
+.answerField {
+    grid-column: 1;
+}
+
+/* Vote buttons */
+.vote {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 2rem;
+    height: 1rem;
+    margin: .1rem;
+}
+
+.count {
+    position: absolute;
+    top: 0;
+
+    border-radius: .2rem .2rem 0 0 ;
+    margin: .5rem;
+    background: #cff5ff;
+    width: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1rem;
+    text-align: center;
+    box-shadow: 0 0 0 .1rem #cff5ff;
+    pointer-events: none;
+}
+
+.increment {
+    flex: 1 0 0;
+    text-align: center;
+    opacity: .5;
+    transition: .3s;
+    cursor: pointer;
+    border-radius: 1rem 1rem 0 0;
+    background: #00A5CF;
+    height: 50%;
+    margin-bottom: .05rem;
+}
+
+.increment:hover {
+    opacity: 1;
+}
+
+/* Survey stuff */
+.choiceLabel {
+    background-color: #00A5CF;
+    /*float: left;*/
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+    height: 2rem;
+    margin: 5px 0 -10px 0;
+    color: white;
+}
+
+input[type=text] {
+    border: none;
+    border-bottom: 2px solid #00A5CF;
+}
+
+.sendNewQuestionButton {
+    background-color: #00A5CF;
+    /*float: left;*/
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+    font-weight: bold;
+}
+.sendReplyButton {
+    background-color: #00A5CF;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
 }

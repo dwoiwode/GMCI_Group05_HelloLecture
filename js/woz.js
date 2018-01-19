@@ -140,11 +140,35 @@ function setQuestion(response) {
             case "sendReplyButton":
                 addNewReply(action, response);
                 break;
+            case "increment up":
+                upvote(action, response);
+                break;
             default:
                 action.classList.add("marked");
                 return;
         }
     }
+}
+
+function addNewQuestion(response) {
+    var questionArray = response.questionArray ? response.questionArray : [];
+    var newQuestionText = document.getElementById("newQuestionText").value;
+    console.log("Lenght of questions: " + questionArray.length);
+    for (var i = 0; i < questionArray.length; i++) {
+        var question = questionArray[i];
+        if (question.text === newQuestionText) {
+            setActive(document.getElementById(getQuestionID(question)).getElementsByClassName("accordion")[0]);
+            return;
+        }
+    }
+
+    var newQuestion = {text: newQuestionText, upvotes: Math.floor(Math.random() * 100), responses: []};
+    // var newQuestion = {text: newQuestionText, upvotes: 0, responses: {}};
+    questionArray.push(newQuestion);
+    questionArray.sort(function (a, b) {
+        return b.upvotes - a.upvotes;
+    });
+    put(response, {"questionArray": questionArray});
 }
 
 function addNewReply(action, response) {
@@ -172,27 +196,26 @@ function addNewReply(action, response) {
     put(response, {"questionArray": questionArray})
 }
 
-function addNewQuestion(response) {
-    questionArray = response.questionArray ? response.questionArray : [];
-    var newQuestionText = document.getElementById("newQuestionText").value;
-    console.log("Lenght of questions: " + questionArray.length);
+function upvote(action, response) {
+    var answerID = action.id.substring(0, action.id.length - 8);
+    var questionArray = response.questionArray ? response.questionArray : [];
     for (var i = 0; i < questionArray.length; i++) {
         var question = questionArray[i];
-        if (question.text === newQuestionText) {
-            setActive(document.getElementById(getQuestionID(question)).getElementsByClassName("accordion")[0]);
-            return;
+        for (var j = 0; j < question.responses.length; j++) {
+            var answer = question.responses[j];
+            if (getAnswerID(question, answer) === answerID) {
+                question.responses[j][1] += 1;
+                console.log(questionArray[i].responses);
+                questionArray[i].responses = question.responses.sort(function (a, b) {
+                    return b[1] - a[1];
+                });
+                console.log(questionArray[i].responses);
+                put(response, {"questionArray": questionArray});
+                return;
+            }
         }
     }
-
-    var newQuestion = {text: newQuestionText, upvotes: Math.floor(Math.random() * 100), responses: []};
-    // var newQuestion = {text: newQuestionText, upvotes: 0, responses: {}};
-    questionArray.push(newQuestion);
-    questionArray.sort(function (a, b) {
-        return b.upvotes - a.upvotes;
-    });
-    put(response, {"questionArray": questionArray});
 }
-
 
 // Surveys
 function setSurvey(response) {
@@ -222,7 +245,6 @@ function addNewSurvey(response) {
     surveyArray.push(newSurvey);
     put(response, {"surveyArray": surveyArray});
 }
-
 
 function voteChoice(action, response) {
     // curQuestionId global variable from woz updater
