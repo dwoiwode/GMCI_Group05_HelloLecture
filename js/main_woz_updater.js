@@ -227,7 +227,7 @@ function updateQuestions(response) {
             questionContainer.appendChild(thisQuestion);
         }
         document.getElementById(questionID + "_accordion").innerHTML = question.text + " (Replies: " + question.responses.length + "; Upvotes: " + question.upvotes + ")";
-        for (var k = 0; k < question.responses.length; k++) {
+		for (var k = 0; k < question.responses.length; k++) {
             // answers
             var answer = question.responses[k];
             var answerID = getAnswerID(question, answer);
@@ -329,8 +329,10 @@ function simulateSurveyParticipation(response) {
     // TODO
 }
 
+var simulateQU = false; 
 function simulateQuestionUpvotes(response) {
-    // TODO
+    simulateQU = true;
+	set('questions');
 }
 
 function simulateAnswerUpvotes(response) {
