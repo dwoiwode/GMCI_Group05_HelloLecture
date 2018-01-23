@@ -81,15 +81,15 @@ function getCheckedRadio(name) {
 }
 
 function set(name) {
-    console.log("set::name = " + name);
-    console.log("set::GET = " + dburl + name);
+    //console.log("set::name = " + name);
+    //console.log("set::GET = " + dburl + name);
     request2.open("GET", dburl + name, false);
     request2.send();
 }
 
 function put(response, message) {
-    console.log("put::response = " + response);
-    console.log("put::message = " + message);
+    //console.log("put::response = " + response);
+    //console.log("put::message = " + message);
     request2.open("PUT", dburl + response._id, false);
     request2.setRequestHeader("Content-type", "application/json");
     message["_id"] = response._id;
@@ -141,19 +141,47 @@ function setQuestion(response) {
                 addNewReply(action, response);
                 break;
             case "increment up":
-                upvote(action, response);
+                upvote(action, response, 'human');
                 break;
             default:
                 action.classList.add("marked");
                 return;
         }
     }
+	
+	// Bot upvotes random answers
+	var botActions = document.getElementsByClassName("botMarked");
+	/*if(botActions.length > 0) {
+		upvote(botActions[0], response, 'bot');
+		botActions[0].classList.remove("botMarked");
+	}*/
+	for (var i = 0; i < botActions.length; i++) {
+        var bAction = botActions[i];
+
+		bAction.classList.remove("botMarked");
+        switch (bAction.className) {
+			case "increment up":
+				upvote(bAction, response, 'bot');
+                break;
+            /*case "sendNewQuestionButton":
+                //addNewQuestion(response);
+                break;
+            case "sendReplyButton":
+                //addNewReply(action, response);
+                break;
+            
+            default:
+                //action.classList.add("marked");
+                break;*/
+        }
+    }
+    
 }
 
 function addNewQuestion(response) {
     var questionArray = response.questionArray ? response.questionArray : [];
     var newQuestionText = document.getElementById("newQuestionText").value;
-    console.log("Lenght of questions: " + questionArray.length);
+    //console.log("Lenght of questions: " + questionArray.length);
     for (var i = 0; i < questionArray.length; i++) {
         var question = questionArray[i];
         if (question.text === newQuestionText) {
@@ -175,7 +203,7 @@ function addNewReply(action, response) {
     var questionArray = response.questionArray;
     if (!questionArray) return;  // Cannot be empty when reply to question wanna be added
     var thisQuestionID = action.id.substring(0, action.id.length - 7);
-    console.log(thisQuestionID);
+    //console.log(thisQuestionID);
     var replyText = document.getElementById(thisQuestionID + "_INPUT").value;
     for (var i = 0; i < questionArray.length; i++) {  // Find right question
         var question = questionArray[i];
@@ -196,9 +224,10 @@ function addNewReply(action, response) {
     put(response, {"questionArray": questionArray})
 }
 
-function upvote(action, response) {
+function upvote(action, response, type) {
     var answerID = action.id.substring(0, action.id.length - 8);
-    action.onclick = null;
+	if(type == 'human')
+		action.onclick = null;
     var questionArray = response.questionArray ? response.questionArray : [];
     for (var i = 0; i < questionArray.length; i++) {
         var question = questionArray[i];
@@ -206,11 +235,19 @@ function upvote(action, response) {
             var answer = question.responses[j];
             if (getAnswerID(question, answer) === answerID) {
                 question.responses[j][1] += 1;
-                console.log(questionArray[i].responses);
+				
+				if(type == 'bot') {
+					var rdVotes = Math.floor((Math.random() * 5) + 1); // from 1 to 5 upvotes by bot at the same time
+					console.log("BOT has upvoted for " + action.id + ". Old: " + question.responses[j][1] + ", New: " + (question.responses[j][1]+rdVotes));
+					question.responses[j][1] += rdVotes;
+				}
+				
+				
+                //console.log(questionArray[i].responses);
                 questionArray[i].responses = question.responses.sort(function (a, b) {
                     return b[1] - a[1];
                 });
-                console.log(questionArray[i].responses);
+                //console.log(questionArray[i].responses);
                 put(response, {"questionArray": questionArray});
                 return;
             }
@@ -255,7 +292,7 @@ function voteChoice(action, response) {
     var splittedID = action.id.split("_______");
     var thisSurveyID = splittedID[0];
     var thisChoice = splittedID[1];
-    console.log(thisSurveyID + "; " + thisChoice);
+    //console.log(thisSurveyID + "; " + thisChoice);
     for (var i = 0; i < surveyArray.length; i++) {  // Find right survey
         var survey = surveyArray[i];
         if (getSurveyID(survey) === thisSurveyID) {

@@ -334,8 +334,17 @@ function simulateQuestionUpvotes(response) {
 }
 
 function simulateAnswerUpvotes(response) {
-    // TODO
+	var voteBtnList = document.getElementsByClassName("increment up");
+	if(voteBtnList.length > 0) {
+		var rd = Math.floor((Math.random() * voteBtnList.length * 5)); // Probability of upvoting: 20%
+		if(rd < voteBtnList.length) {
+			voteBtnList[rd].classList.add("botMarked");
+			set('questions');
+		}
+	}
 }
+
+
 
 
 
