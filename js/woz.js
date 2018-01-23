@@ -149,33 +149,10 @@ function setQuestion(response) {
         }
     }
 	
-	// Bot upvotes random answers
-	var botActions = document.getElementsByClassName("botMarked");
-	/*if(botActions.length > 0) {
-		upvote(botActions[0], response, 'bot');
-		botActions[0].classList.remove("botMarked");
-	}*/
-	for (var i = 0; i < botActions.length; i++) {
-        var bAction = botActions[i];
-
-		bAction.classList.remove("botMarked");
-        switch (bAction.className) {
-			case "increment up":
-				upvote(bAction, response, 'bot');
-                break;
-            /*case "sendNewQuestionButton":
-                //addNewQuestion(response);
-                break;
-            case "sendReplyButton":
-                //addNewReply(action, response);
-                break;
-            
-            default:
-                //action.classList.add("marked");
-                break;*/
-        }
-    }
-    
+    upVoteRandomAnswer(response); // Bot upvotes random answers
+	if(simulateQU)
+		upvoteRandomQuestion(response); // Bot upvotes random questions
+	
 }
 
 function addNewQuestion(response) {
@@ -310,4 +287,28 @@ function setSimulation(response) {
         "simulateQuestion": document.getElementById("questionVotes").checked,
         "simulateAnswer": document.getElementById("answerVotes").checked
     });
+}
+
+function upvoteRandomQuestion(response) {
+	var rd = Math.floor((Math.random() * response.questionArray.length * 5)); // Probability of upvoting: 20%
+	if(rd < response.questionArray.length) {
+		var questionArray = response.questionArray;
+		var question = questionArray[rd];
+		var rdVotes = Math.floor((Math.random() * 5) + 1); // from 1 to 5 upvotes by bot at the same time
+		console.log("Bot has upvoted for " + question.text + ". Old: " + question.upvotes + ", New: " + (question.upvotes + rdVotes));
+		question.upvotes += rdVotes;
+		questionArray.sort(function (a, b) {
+			return b.upvotes - a.upvotes;
+		});
+		put(response, {"questionArray": questionArray});
+		return;
+	}
+}
+
+function upVoteRandomAnswer(response) {
+	var botActions = document.getElementsByClassName("botMarked");
+	if(botActions.length > 0) {
+		upvote(botActions[0], response, 'bot');
+		botActions[0].classList.remove("botMarked");
+	}
 }
