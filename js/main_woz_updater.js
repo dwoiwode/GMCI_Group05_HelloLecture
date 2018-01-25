@@ -314,19 +314,26 @@ function getSurveyData(survey, response) {
 
 /* Simulation */
 function simulate(response) {
-    if (response.simulateSurvey) {
+    if (response.simulateSurvey)
         simulateSurveyParticipation(response);
-    }
-    if (response.simulateQuestion) {
+    else
+		simulateSP = false;
+
+    if (response.simulateQuestion) 
         simulateQuestionUpvotes(response);
-    }
-    if (response.simulateAnswer) {
+    else
+		simulateQU = false;
+		
+    if (response.simulateAnswer) 
         simulateAnswerUpvotes(response)
-    }
+    else
+		simulateAU = false;
 }
 
+var simulateSP = false;
 function simulateSurveyParticipation(response) {
-    // TODO
+    simulateSP = true;
+	set('surveys');
 }
 
 var simulateQU = false; 
@@ -335,7 +342,9 @@ function simulateQuestionUpvotes(response) {
 	set('questions');
 }
 
+var simulateAU = false;
 function simulateAnswerUpvotes(response) {
+	simulateAU = true;
 	var voteBtnList = document.getElementsByClassName("increment up");
 	if(voteBtnList.length > 0) {
 		var rd = Math.floor((Math.random() * voteBtnList.length * 5)); // Probability of upvoting: 20%

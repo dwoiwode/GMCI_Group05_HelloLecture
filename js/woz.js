@@ -149,7 +149,8 @@ function setQuestion(response) {
         }
     }
 	
-    upVoteRandomAnswer(response); // Bot upvotes random answers
+	if(simulateAU)
+		upVoteRandomAnswer(response); // Bot upvotes random answers
 	if(simulateQU)
 		upvoteRandomQuestion(response); // Bot upvotes random questions
 	
@@ -250,6 +251,9 @@ function setSurvey(response) {
                 return;
         }
     }
+	
+	if(simulateSP)
+		participateRandomSurvey(response); // Bot participates in random survey.
 }
 
 function addNewSurvey(response) {
@@ -287,6 +291,30 @@ function setSimulation(response) {
         "simulateQuestion": document.getElementById("questionVotes").checked,
         "simulateAnswer": document.getElementById("answerVotes").checked
     });
+}
+
+function participateRandomSurvey(response) {
+	var rd = Math.floor((Math.random() * response.surveyArray.length * 5)); // Probability of upvoting: 20%
+	if(rd < response.surveyArray.length) {
+		var surveyArray = response.surveyArray;
+		var choiceObject = surveyArray[rd].choices;
+		var choiceArray = Object.keys(choiceObject); // Convert from object to array
+		var rdChoice = Math.floor((Math.random() * choiceArray.length));
+		
+		var sum = 0;
+		for(var i = 0; i < choiceArray.length; i++) {
+			sum += choiceObject[choiceArray[i]];
+		}
+		
+		var rdParticipation = Math.floor((Math.random() * 3) + 1); // from 1 to 3 participaters by bot at the same time
+		var oldValue = (choiceObject[choiceArray[rdChoice]]*100/sum).toFixed(1) + "%";
+		var newValue = ((choiceObject[choiceArray[rdChoice]] + rdParticipation)*100/(sum+rdParticipation)).toFixed(2) + "%";
+		console.log("Bot has choosen \"" + choiceArray[rdChoice] + "\" " + rdParticipation + " times. Old: " + oldValue + ", New: " + newValue);
+		choiceObject[choiceArray[rdChoice]] += rdParticipation;
+		
+		put(response, {"surveyArray": surveyArray});
+		return;
+	}
 }
 
 function upvoteRandomQuestion(response) {
