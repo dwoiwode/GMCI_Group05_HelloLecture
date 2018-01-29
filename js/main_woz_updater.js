@@ -260,7 +260,12 @@ function updateSurvey(response) {
         var survey = response.surveyArray[i];
         var surveyID = getSurveyID(survey);
         var thisSurvey = document.getElementById(surveyID);
+        var newSurvey = !thisSurvey;
         thisSurvey = thisSurvey ? thisSurvey : createNewSurvey(survey);
+        if (newSurvey) {
+            surveyContainer.appendChild(thisSurvey);
+            // thisQuestion.children[1].appendChild(thisAnswer);
+        }
         thisSurvey.classList.remove("singleSurvey");
         switch (thisSurvey.className) {
             case "replaceable":
@@ -273,7 +278,9 @@ function updateSurvey(response) {
                 break;
         }
         thisSurvey.classList.add("singleSurvey");
-        surveyContainer.appendChild(thisSurvey);
+        // surveyContainer.appendChild(thisSurvey);
+
+
     }
 }
 
