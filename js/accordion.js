@@ -4,6 +4,13 @@ function addAccordionEventListener(accordion) {
         this.classList.toggle("active");
         var panel = this.nextElementSibling;
         console.log(panel);
+		if(this.classList[1] == "active") {
+			this.style.backgroundImage = "url('../emoji/arrow_up.png')";
+			this.style.backgroundRepeat = "no-repeat";
+			this.style.transition = "false";
+		} else {
+			this.style.backgroundImage = "url('../emoji/arrow_down.png')";
+		}
         if (panel.style.maxHeight){
             panel.style.maxHeight = null;
         } else {
