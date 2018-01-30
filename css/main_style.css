@@ -60,9 +60,9 @@ html, body {
 /* ============== Accordion stuff ============== */
 /* Style the buttons that are used to open and close the accordion panel */
 .accordion {
-	background-image: url("../emoji/arrow_down.png");
-	background-repeat: no-repeat;
-	background-position: 1400px 10px;
+    background-image: url("../emoji/arrow_down.png");
+    background-repeat: no-repeat;
+    background-position: 99% 50%;
     background-color: #eee;
     color: #444;
     cursor: pointer;
@@ -166,7 +166,7 @@ html, body {
 .singleAnswer {
     display: grid;
     grid-template-columns: 8fr 0.1fr;
-    margin:5px;
+    margin: 5px;
 }
 
 .answerField {
@@ -188,7 +188,7 @@ html, body {
     position: absolute;
     top: 0;
 
-    border-radius: .2rem .2rem 0 0 ;
+    border-radius: .2rem .2rem 0 0;
     margin: .5rem;
     background: #cff5ff;
     width: 1rem;
@@ -244,6 +244,7 @@ input[type=text] {
     color: white;
     font-weight: bold;
 }
+
 .sendReplyButton {
     background-color: #00A5CF;
     border: none;
